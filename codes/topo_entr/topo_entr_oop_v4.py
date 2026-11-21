@@ -6,7 +6,7 @@ from scipy.stats import t
 import math
 
 class YarnEntropyPlotter:
-    def __init__(self, isobar, model, init_date, lead_time, spat_res, area):
+    def __init__(self, isobars, models, init_dates, lead_times, spat_res, area):
         self.isobars = np.atleast_1d(isobars)
         self.models = np.atleast_1d(models)
         self.init_dates = np.atleast_1d(init_dates)
@@ -14,8 +14,8 @@ class YarnEntropyPlotter:
         self.spat_res = np.atleast_1d(spat_res)
         self.area = area
 
-    def load_npz(self, iso, date):
-        filepath = f"../traj_sols/{self.area}/trajectory_solution_{self.lead_time}h_{iso}hPa_{date}_{self.model}_{str(self.spat_res).replace('.', '')}.npz"
+    def load_npz(self, model, iso, date, lead_time, res):
+        filepath = f"../traj_sols/{self.area}/trajectory_solution_{lead_time}h_{iso}hPa_{date}_{model}_{str(res).replace('.', '')}.npz"
         
         if not os.path.exists(filepath):
             raise FileNotFoundError(f"File not found: {filepath}")
@@ -94,11 +94,11 @@ class YarnEntropyPlotter:
                             length = self.calc_length(particle_lons, particle_lats)
 
                             if iso == 500:
-                                fit_range = (90, 160)
+                                fit_range = (90, 168)
                             elif iso == 700:
-                                fit_range = (90, 150)
+                                fit_range = (75, 168)
                             elif iso == 850:
-                                fit_range = (125, 160)
+                                fit_range = (50, 168)
                             else:
                                 fit_range = (90, 150)
                                 
@@ -164,7 +164,7 @@ class YarnEntropyPlotter:
                             plt.legend(fontsize=11, loc="upper left")
                             plt.tight_layout()
 
-                            os.makedirs(f"./{self.area}", exist_ok=True)
+                            os.makedirs(f"./combined/{self.area}", exist_ok=True)
 
                             save_path = (f"./combined/{self.area}/yarn_length_fit_compare_{iso}hPa_{date}_{lt}h_{str(res).replace('.', '')}.png")
                             plt.savefig(save_path, dpi=300)
@@ -177,10 +177,12 @@ class YarnEntropyPlotter:
 if __name__ == "__main__":
     SELECTED_MODELS = ["aifs", "ifs"]
     SELECTED_ISOBARS = [500, 700, 850]
+#    SELECTED_ISOBARS = [850]
     INIT_DATES = [20260601, 20260701, 20260801, 20260901, 20261001]
+#    INIT_DATES = [20260601, 20260701, 20260801, 20261001]
     LEAD_TIMES_HR = [168]
     SPAT_RES = [0.005]
-    AREA = "hun" # hun, jet, trade
+    AREA = "trade" # hun, jet, trade
 
     analyzer = YarnEntropyPlotter(
         isobars=SELECTED_ISOBARS, 
