@@ -214,13 +214,13 @@ Ezt vizsgálták 2023-ban Selz \& Craig kis perturbációval ellátott ensemble 
 
 Vizsgálatuk során kis- és nagy felbontású rácshálózatot is alkalmaztak. A nagy felbontású rácson (2,5 km) a konvekció -- a légkör egyik legkevésbé lineáris folyamata -- is megfigyelhető volt. A vizsgálat esettanulmány-jellegű, 2021. június 26. 00 UTC inicializációs idejű előrejelzéseket használtak fel. Az időpont-választás oka, hogy ekkor Észak-Amerika felett -- nyár lévén -- jelentős konvektív folyamatok zajlottak; azonban eredményeiket az egész Földre átlagolva adták meg \cite{selz_can_2023}.
 
-A hibanövekedés számszerűsítésére egy ilyen célra gyakran használt mennyiséget, a 300 hPa-on számolt kinetikusenergia-különbséget (\textit{Difference Kinetic Energy, DKE}) alkalmazták:
+A hibanövekedés számszerűsítésére egy ilyen célra gyakran használt mennyiséget, a 300 hPa-on számolt kinetikusenergia-különbséget (\textit{Difference Kinetic Energy, DKE}) alkalmazták, melyet minden rácspontban kiszámoltak:
 \[
 \text{DKE}=\text{Var}(u) + \text{Var}(v),
 \]
-ahol $u$ és $v$ a horizontális szélkomponensek \cite{selz_can_2023}. 
+ahol $u$ és $v$ a horizontális szélkomponensek, Var pedig az ensemble dimenziója menti varianciát jelöli \cite{selz_can_2023}. 
 
-A kutatók kis és nagyobb perturbációkat is alkalmaztak; eredményeiket a \ref{fig:selz-pert}. ábra foglalja össze.
+A kutatók kis és nagyobb perturbációkat is alkalmaztak; a globálisan átlagolt DKE-re vonatkozó eredményeiket a \ref{fig:selz-pert}. ábra foglalja össze.
 
 \begin{figure}[H]
     \centering
@@ -235,11 +235,11 @@ A kicsit perturbált Pangu-Weather modell hibanövekedésének időbeli lefutás
 
 Azonban a fent említett vizsgálat elvégzéséhez -- tekintve, hogy az ensemble előrejelzések sok tagból állnak -- rendkívül magas számítási kapacitásra van szükség. Selz \& Craig pl. az ECMWF Atos nevű szuperszámítógépét használták. A Pangu-Weather kísérletek 16, az alacsony felbontású ICON-kísérletek 2900, a magas felbontású ICON-kísérletek pedig 1300000 számítási órába kerültek egyenként \cite{selz_can_2023}.
 
-Ennél olcsóbb módszerek lehetnek az előrejelzési idősorban való kaotikus viselkedés észlelése, vagy trajektóriamodellezés. Az előrejelzési idősorban való kaotikus viselkedés észlelésére felhasználható módszerekkel foglalkozik Pánis et al. 2020-as cikke \cite{panis_detection_2020}.
+Ennél olcsóbb módszer lehet az előrejelzési idősorban való kaotikus viselkedés észlelése, mely történhet pl. Pánis et al. (2020) \cite{panis_detection_2020} cikkében javasolt módszerekkel. Egy más jellegű megközelítést nyújt az előállított előrejelzési mezőkben különböző részecsketrajektóriák számítása és vizsgálata, amely utóbbival nem magát a meteorológiai idősorokban fellelhető káoszt elemezzük, hanem azt, hogy a mezőkben történő részecskesodródás és terjedési dinamika mennyire adja vissza a referencia előrejelzési mezőkben tapasztalt kaotikus advekció jellemző tulajdonságait.
 
 \subsection{A kaotikus viselkedést jellemző mennyiségek}
 
-A kaotikus rendszereket fázistérben (pl. sebesség-kitérés koordináta-rendszer) ábrázolva komplex, de rendezett, fraktálszerű alakzatot kapunk. A fraktálok olyan geometriai alakzatok, melyek kerülete és felülete nincs definiálva, és önhasonlóak; ezt szemlélteti a \ref{fig:koch}. ábrán feltüntetett híres példa, a Koch-görbe, melynek területe véges marad ugyan, de kerülete a végtelenhez tart \cite{tel_kaotikus_2002}.
+A kaotikus rendszereket fázistérben (pl. sebesség--kitérés koordináta-rendszer) ábrázolva komplex, de rendezett, fraktálszerű alakzatot kapunk. A fraktálok olyan geometriai alakzatok, melyek kerülete és felülete nincs definiálva, és önhasonlóak; ezt szemlélteti a \ref{fig:koch}. ábrán feltüntetett híres példa, a Koch-görbe, melynek területe véges marad ugyan, de kerülete a végtelenhez tart \cite{tel_kaotikus_2002}.
 
 \begin{figure}[H]
     \centering
@@ -258,40 +258,45 @@ D_0=\lim_{\varepsilon \rightarrow 0}\frac{\ln N(\varepsilon)}{\ln 1/\varepsilon}
 \]
 adja meg a fraktáldimenziót. A dobozszámláló (box-counting) módszer nem önmagában az idősor görbéjére alkalmazva jelzi a káoszt, hanem a fázistérbeli attraktor geometria vizsgálatakor: a nem egész (fraktál) dimenzió a kaotikus rendszerekre jellemző egyik lehetséges sajátosság \cite{tel_kaotikus_2002,panis_detection_2020}.
 
-Másik módszer az idősoradatokban a káosz észlelésére a korrelációs dimenzió ($D_2$) vizsgálata. A korrelációs dimenzió kiszámítása során megszámoljuk, hogy hány pontpár ($C(\varepsilon)$) van egymáshoz közelebb, mint egy nagyon kicsi $\varepsilon$ küszöbérték \cite{panis_detection_2020}:
+Másik módszer az idősoradatokban a káosz észlelésére a korrelációs dimenzió ($D_2$) vizsgálata, amellyel szintén a fázistérbeli alakzatot jellemezzük. A korrelációs dimenzió kiszámítása során megszámoljuk, hogy hány pontpár ($C(\varepsilon)$) van egymáshoz közelebb, mint egy nagyon kicsi $\varepsilon$ küszöbérték \cite{panis_detection_2020}. Amennyiben teljesül a $C(\epsilon) \propto \epsilon^D_2$ arányosság, akkor $D_2$-t korrelációs dimenziónak nevezzük, és a következő módon számítható \cite{panis_detection_2020, tel_kaotikus_2002}:
 \[
 D_2=\lim_{\varepsilon \rightarrow 0}\frac{\ln C(\varepsilon)}{\ln \varepsilon}.
 \]
 
-Következő módszer a Ljapunov-exponens keresése. Ha a kaotikus attraktor egy $\mathbf{r}$ pontja körül két közeli pontból indítunk részecskéket, távolságuk a lépések $n$ számának növelésével exponenciálisan nőni fog:
+Következő módszer a Ljapunov-exponens keresése. Ha a kaotikus attraktor egy $\mathbf{r}$ pontja körül két közeli pontból indítunk részecskéket, távolságuk a lépések $n$ számának növelésével (illetve az idővel) exponenciálisan nőni fog:
 \[
-\Delta r_n=\Delta r_0 e^{\bar{\lambda}n},
+\Delta r_n=\Delta r_0 e^{\lambda(\mathbf{r})n},
 \]
-ahol $\Delta r_0$ a kezdeti (kicsi) távolságuk, $\bar{\lambda}$ pedig a fázistérhez rendelhető átlagos Ljapunov-exponens. Kaotikus rendszerekben $\bar{\lambda}>0$ \cite{panis_detection_2020}.
+ahol $\Delta r_0$ a kezdeti (kicsi) távolságuk, $\lambda(\mathbf{r})$ pedig a rendszerhez rendelhető lokális Ljapunov-exponens. A fenti összefüggés addig tekinthető jó közelítéssel igaznak, míg a $\Delta r_n(\mathbf{r})$ távolság kicsi az attraktor kiterjedéséhez képest. A kaotikus attraktoron $\lambda(\mathbf{r})$ pozitív szám. Az attraktoron lévő tipikus pontpárokra is igaz, hogy egy $\overline\lambda$ átlagos Ljapunov-exponenssel távolodnak egymástól \cite{panis_detection_2020,tel_kaotikus_2002}.
+
+Ahogy az előző bekezdésben bemutatott pontpárok egymástól exponenciális ütemben távolodnak, ehhez hasonlóan egy kezdetben $L_0$ hosszúságú vonaldarab is az idő során egyre jobban megnyúlik, és a tapasztalat szerint elegendően sok idő után a hossza már exponenciálisan nő:
+
+\[
+L(t)=L_0 \cdot e^{ht} \quad (t\gg 1/h).
+\]
+
+A $h$ kitevőt topologikus entrópiának nevezzük. Szemléletesen a vonaldarab növekedésének ütemét jellemzi, aminek megfelelően a mennyiséget gyakran ,,nyúlási ütemként" is emlegetik \cite{haszpra_ensemble-based_2019}.
 
 A gépi tanulást a kaotikus viselkedés detektálására is használhatjuk. Alkotható olyan modell, amely a kaotikus minták felismerésére van tanítva, így az ember számára nehezen felismerhető vagy észrevétlenül maradt mintázatokat is képes felismerni \cite{panis_detection_2020}.
 
-A kaotikus jelek detektálására használhatóak lagrange-i trajektóriamodellek is: szimulálható segítségükkel, hogy a légkör egy térfogatdarabja (pl. egy szennyezés) hogyan változtatja térfogatát, növeli időben exponenciálisan a szálainak a hosszát, majd áll rá a kaotikus attraktorra \cite{haszpra_replat_2014}.
+A sodródó anyagok szétterjedésében felbukkanó kaotikus jelek detektálására használhatóak lagrange-i trajektóriamodellek is: szimulálható segítségükkel, hogy a légkör egy térfogatdarabja (pl. egy szennyezés) hogyan változtatja térfogatát, növeli időben exponenciálisan a szálainak a hosszát, majd áll rá a kaotikus attraktorra. A szennyeződések sodródása esetén a fázistér megegyezik az állapottérrel, azaz, ahogy az előző mondat is utalt rá, a kaotikus jellemzők szabad szemmel is láthatók \cite{haszpra_replat_2014}.
 
-A terjedési modellek célja, hogy a meteorológiai viszonyok ismeretében modellezzék, hogy a légkörben egy részecske hogyan terjed. A terjedési modellek időjárás-előrejelző modellekkel vannak meghajtva, azok előrejelzései szolgáltatják a széladatokat a részecske mozgásának modellezéséhez. A terjedési modellekkel figyelembe lehet venni a felszínközeli hatásokat, elsősorban a turbulens diffúziót, azonban az bonyolulttá teszi a modellt. Ha alacsonyabb nyomású izobárszinteken vizsgáljuk a részecskék terjedését, dominánsan csak a szél általi advekció fogja befolyásolni a terjedést, így a turbulens diffúzió hatása elhanyagolhatóvá válik. 
+\subsection{A kaotikus viselkedés vizsgálata terjedési modellekkel}
 
-A szimulált trajektóriák felhasználásával is ki lehet mutatni a káosz jelenlétét, legegyszerűbben a topologikus entrópia ($h$) segítségével tehető ez meg. A mennyiség jellemzi egy kezdetben $L_0$ hosszú fonaldarab megnyúlását:
-\[
-L(t)=L_0 \cdot e^{ht} \quad (t\gg 1/h),
-\]
-tehát a mozgás bonyolultságával van kapcsolatban: minél nagyobb $h$, annál bonyolultabb lesz a mozgás (jobban megnyúlik a kezdeti fonaldarab). Ennek megfelelően a mennyiséget gyakran ,,nyúlási ütemként" is említik. Ha $h>0$, a mozgás kaotikus. A topologikus entrópia becslése sok részecske pályájának nyomon követésével lehetséges \cite{haszpra_ensemble-based_2019}.
+A terjedési modellek célja, hogy a meteorológiai viszonyok ismeretében modellezzék, hogy a légkörben egy részecske hogyan terjed. A terjedési modellek időjárás-előrejelző modellekkel vannak meghajtva, azok előrejelzései szolgáltatják a széladatokat a részecske mozgásának modellezéséhez. A terjedési modellekkel figyelembe lehet venni a felszínközeli hatásokat, elsősorban a turbulens diffúziót, azonban az bonyolulttá teszi a modellt. Ha alacsonyabb nyomású izobárszinteken vizsgáljuk a részecskék terjedését, dominánsan csak a szél általi advekció fogja befolyásolni a terjedésüket, így a turbulens diffúzió hatása elhanyagolhatóvá válik. 
 
+A szimulált trajektóriák felhasználásával is ki lehet mutatni a káosz jelenlétét a légköri szennyeződések sodródásában. Ez legegyszerűbben a topologikus entrópia ($h$) segítségével tehető meg. A mennyiség a fent említettek szerint jellemzi egy kezdetben $L_0$ hosszú fonaldarab megnyúlását. Minél nagyobb $h$, annál bonyolultabb a mozgás (jobban megnyúlik a kezdeti fonaldarab). Ha $h>0$, a mozgás kaotikus. A topologikus entrópia becslése sok részecske pályájának nyomon követésével lehetséges.
 
 \section{Adat, módszer}
 Vizsgálataim során kétdimenziós trajektóriamodellt hajtottam meg 2026. június 1-jén, július 1-jén, augusztus 1-jén, szeptember 1-jén, illetve október 1-jén UTC szerint 0 órakor készült ECMWF-IFS, illetve ECMWF-AIFS szél-előrejelzésekkel. Az előrejelzések középtávúak (360 órára előre készülnek el 6 órás lépésekkel), determinisztikusak, és jelentős számú izobárszintre (1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 100, 50 hPa) elkészülnek $0,25^\circ \times 0,25^\circ$ globális térbeli felbontással.
 
 \subsection{A trajektóriamodell}
-Trajektóriamodellnek egy, a témavezetőm által biztosított, Python nyelven írt modellt vettem alapul. Ezt jelentősen átalakítva, illetve további funkciókkal bővítve használtam fel.
+Trajektóriamodellnek egy, az egyik témavezetőm, Leelőssy Ádám által biztosított, Python nyelven írt modellt vettem alapul. Ezt jelentősen átalakítva, illetve további funkciókkal bővítve használtam fel.
 
 A modell bemenetként várja:
 \begin{itemize}
-    \item Szélességi kör tartomány mintavételezési sűrűséggel, ahonnan a részecskéket indítjuk (\textit{ndarray adattípus, tetszőleges dimenzió}).
-    \item Hosszúsági kör tartomány  mintavételezési sűrűséggel, ahonnan a részecskéket indítjuk (\textit{ndarray adattípus, szélességi körök array-ével megegyező dimenzió}).
+    \item Szélességikör-intervallum mintavételezési sűrűséggel, ahonnan a részecskéket indítjuk (\textit{ndarray adattípus, tetszőleges dimenzió}).
+    \item Hosszúságikör-intervallum mintavételezési sűrűséggel, ahonnan a részecskéket indítjuk (\textit{ndarray adattípus, szélességi körök array-ével megegyező dimenzió}).
     \item Eredeti ECMWF előrejelzések indítási ideje (\textit{yyyymmdd formátumban, int adattípus}).
     \item Előrejelzési időtartam (\textit{értéke legfeljebb 360, int adattípus}).
     \item Vizsgált izobárszint (\textit{értéke az ECMWF által használt főizobárszintek valamelyike lehet, int adattípus}).
@@ -310,25 +315,25 @@ ahol $R=6371000$ m a Föld sugara, $u$ a keleti (zonális)-, $v$ pedig az észak
 
 A (\ref{eq:lambda}) egyenletben szerepel egy $\cos \varphi$-vel osztás. Elméletileg lehetséges, hogy a részecske elérje a sarkpontot, ahol $\cos \varphi$ nullává válna. Hogy ez semmiképpen se történhessen meg, a szélességi köröket csak $-89,9^\circ$ és $89,9^\circ$ között vesszük. 
 
-A differenciálegyenlet-rendszert az elterjedt Runge-Kutta 5(4) rendű módszer segítségével integráltam numerikusan. A Runge-Kutta módszer adaptív időlépésekkel dolgozik. Az esetlegesen fellépő túl nagy időlépés alkalmazását úgy akadályoztam meg, hogy a maximális lépésközt 10 percre állítottam. A relatív hibatoleranciát $10^{-3}$-nak, az abszolút hibatoleranciát $10^{-3}\,{}^\circ$-nak vettem.
+A differenciálegyenlet-rendszert az elterjedt 5(4)-edrendű Runge--Kutta-módszer segítségével integráltam numerikusan. A Runge--Kutta módszer adaptív időlépésekkel dolgozik. Az esetlegesen fellépő túl nagy időlépés alkalmazását úgy akadályoztam meg, hogy a maximális lépésközt 10 percre állítottam. A relatív hibatoleranciát $10^{-3}$-nak, az abszolút hibatoleranciát $10^{-3}\,{}^\circ$-nak vettem.
 
-A szimulációkkal fő célom topologikus entrópia meghatározása volt, amihez a részecskék által kifeszített fonal hosszának időbeli változását szükséges vizsgálni. Azonban ha túl messzire kerül egymástól két szomszédos részecske, a köztük lévő, koordinátáik felhasználásával egyszerűen számítható, légvonalbeli távolság nem fog megegyezni a köztük lévő fonaldarab hosszával. Ennek kiküszöbölésére ha két szomszédos részecske egymástól több, mint 20 km távolságra került, beszúrtam egy részecskét közéjük. A dinamikus részecskebeszúrással előállított trajektóriákat kezdetiérték-vektor felülírással ciklusban léptetett Runge-Kutta módszerrel integráltam.
+A szimulációkkal fő célom topologikus entrópia meghatározása volt, amihez a részecskék által kifeszített fonal hosszának időbeli változását szükséges vizsgálni. Azonban ha túl messzire kerül egymástól két szomszédos részecske, a köztük lévő, koordinátáik felhasználásával egyszerűen számítható, légvonalbeli távolság nem fog megegyezni a köztük lévő fonaldarab hosszával. Ennek kiküszöbölésére ha két szomszédos részecske egymástól több, mint 20 km távolságra került, beszúrtam egy részecskét közéjük. A dinamikus részecskebeszúrással előállított trajektóriákat kezdetiérték-vektor felülírással ciklusban léptetett Runge--Kutta módszerrel integráltam.
 
 Az ilyen módon előállított, megfelelően sűrű részecskehálózatban jó közelítés a szomszédos részecskék közti fonaldarab hosszára a légvonalbeli $d$ távolságuk, melyet a Haversine-formulával számítottam:
 \[
 d=R \cdot 2 \cdot \arcsin \sqrt{\sin^2\left(\frac{\Delta \varphi}{2} \right) + \cos \left(\varphi_1 \right)\cdot\cos(\varphi_2)\cdot\sin^2\left(\frac{\Delta \lambda}{2} \right)},
 \]
-ahol $(\varphi_1, \lambda_1)$ és $(\varphi_2, \lambda_2)$ a két részecske koordinátája, $\Delta \varphi$ szélességi radián különbségük, $\Delta \lambda$ hosszúsági radián különbségük, $R=6371000$ m pedig a Föld sugara.
+ahol $\Delta \varphi$ a két részecske szélességi koordinátájának különbsége radiánban, $\Delta \lambda$ a hosszúsági koordinátáik különbsége radiánban, $R=6371000$ m pedig a Föld sugara.
 
 A trajektóriamodell futtatása 8 magos AMD Ryzen 7 2700X processzor alapú számítógépen történt. A részecskebeszúrást végző metódussal ellátott modell jelentősen megnövekedett lineáris algebrai számítási terhelést jelentett a részecskék megugró száma miatt. A futási időt a NumPy által támogatott többszálú végrehajtás engedélyezésével csökkentettem.
 
 \subsection{Felhasznált adat}
 
-A modellt ECMWF-IFS, illetve ECMWF-AIFS szélelőrejelzésekkel is meghajtottam.A vizsgálatokat több izobárszinten (850, 700, 500 hPa) végeztem, 168 órás előrejelzési időtávra. Az előrejelzési időtáv megválasztása azért történt így, mert ez már elég hosszú idő ahhoz, hogy reprezentatív lenyomatot kaphassunk a légkör folyamatairól. Emellett elég rövid ahhoz, hogy a szimulációknak -- a jelentősen megnövekvő részecskeszám miatt -- ne teljen túl sok időbe lefutniuk. 
+A modellt ECMWF-IFS, illetve ECMWF-AIFS szélelőrejelzésekkel is meghajtottam. A vizsgálatokat több izobárszinten (850, 700, 500 hPa) végeztem, 168 órás előrejelzési időtávra. Az előrejelzési időtáv megválasztása azért történt így, mert ez már elég hosszú idő ahhoz, hogy reprezentatív lenyomatot kaphassunk a légkör folyamatairól. Emellett elég rövid ahhoz, hogy a szimulációknak -- a jelentősen megnövekvő részecskeszám miatt -- ne teljen túl sok időbe lefutniuk. 
 
 A felhasznált ECMWF-előrejelzések az ECMWF-modellek legújabb verzióival készültek: a 2026. május 12-én megjelent IFS Cycle 50r1-gyel, illetve AIFS v2-vel \cite{snell_significant_2026}. A felhasznált előrejelzések futtatási idejei: 2026. június 1., 2026. július 1., 2026. augusztus 1., 2026. szeptember 1., 2026. október 1.
 
-A részecskéket tetszőlegesen kiválasztott tértartományból lehet indítani. A vizsgálatom során egy adott hosszúsági kör mentén 10$^\circ$-nyi szélességi kört vettem figyelembe több helyen:
+A részecskéket tetszőlegesen kiválasztott tértartományból lehet indítani. A vizsgálatom során a következő, adott hosszúsági kör mentén elhelyezkedő, 10°-os szélességi kiterjedésű vonaldarabok légköri terjedését elemeztem:
 \begin{itemize}
     \item K.h. 20$^\circ$ mentén é.sz. $[45^\circ, 55^\circ]$, mivel ez Magyarország területét is magában foglalja.
     \item K.h. 20$^\circ$ mentén é.sz. $[50^\circ, 60^\circ]$, az északi poláris jet stream helyszíne.
@@ -341,15 +346,15 @@ A k.h. 20$^\circ$, é.sz. $[45^\circ, 55^\circ]$, illetve a jet stream tértarto
 \subsection{Kaotikus viselkedés számszerűsítése}
 A modellezett trajektóriák felhasználásával topologikus entrópiát számoltam. Ehhez a szimuláció minden időlépésében szükséges kiszámolni a részecskéket képzeletben összekötő, egyre bonyolultabb alakot felvevő fonal hosszát. Ez úgy tehető meg, hogy az adott időlépésben a részecskék koordinátáinak ismeretében kiszámolom, milyen messze vannak egymástól a szomszédos részecskék, és ezeket a távolságokat összeadom. Ha a részecskék elég sűrűen helyezkednek el, ezzel a módszerrel viszonylag pontosan megkapható a fonal megnyúlásának időfüggése, a kapott adatokra való illesztéssel pedig egyszerűen meghatározható a $h$ topologikus entrópia. Az elég sűrű elhelyezkedést 20 km-es távolságküszöbbel dinamikus részecskebeszúrással biztosítottam.
 
-A rendelkezésre álló adatok $0,25^\circ \times 0,25^\circ$ felbontásúak, ami kb. 27 km $\times$ 27 km-es felbontást jelent. Ez trajektóriák modellezésekor meglehetősen durva felbontásnak számít, a szakirodalomban ennél jóval finomabb felbontást -- pl. 300-600 m -- használnak \cite{haszpra_ensemble-based_2019}. A részecskéket egymástól $0,005 ^\circ$-ra indítottam, ami kb. 540 m-t jelent. Tizedekkora felbontáson ($0,05^\circ \times 0,05^\circ$) nem volt jelentős szimulációs idő csökkenés, így maradtam a finomabb felbontásnál. A modell minden lépésben térbeli lineáris interpolációval határozza meg a szélsebességet a részecskék pillanatnyi pozíciójában.
+A rendelkezésre álló meteorológiai adatok $0,25^\circ \times 0,25^\circ$ felbontásúak, ami kb. 27 km $\times$ 27 km-es felbontást jelent. A részecskéket egymástól $0,005 ^\circ$-ra indítottam, ami kb. 500-600 m-t jelent. Tízszer ekkora távolságról ($0,05^\circ$) indítva a szomszédos részecskéket nem volt jelentős szimulációs idő csökkenés, így maradtam a finomabb felbontásnál. A modell minden lépésben időbeli és térbeli lineáris interpolációval határozza meg a szélsebességet a részecskék pillanatnyi pozíciójában.
 
 A fonal hosszát szemilogaritmikus diagramon ábrázolva az idő függvényében egy egyenes illesztésével, az egyenes meredekségeként lehet meghatározni a topologikus entrópiát. A paraméter bizonytalanságát 95\%-os konfidenciaintervallummal adtam meg, melyet (mivel nem ismerjük a teljes sokaság -- a légköri fonalhosszak -- elméleti szórását) t-eloszlás alapján számoltam.
 
 \section{Eredmények}
-A kapott eredményeket a vizsgált földrajzi régiókra bontva fogom bemutatni. Először a fonalalak-változás kvalitatív vizsgálatával, majd a topologikus entrópia számolásokat is bemutatva.
+A kapott eredményeket a vizsgált földrajzi régiókra bontva fogom bemutatni. Először a fonálalak változásának kvalitatív vizsgálatát, majd a topologikus entrópia számolásokat ismertetem.
 
 \subsection{Magyarország területét érintő tartomány: k.h. $20^\circ$ mentén é.sz. $[45^\circ, 55^\circ]$}
-A megadott szélességi körök időjárását legnagyobb mértékben a mérséklet övezeti ciklonok és anticiklonok váltakozása határozza meg. A vizsgált nyomási szinteken mindenütt jelentős, nyugatias áramlás jellemző. A kezdeti részecskenyalábot elengedve ezért az kelet felé fog haladni, a részecskéket összekötő fonal alakja az áramlás bonyolultságával összefüggő alakot fog felvenni. Ahol erősen feltekeredik, ott valószínűleg egy ciklon lehetett jelen.
+A megadott szélességi körök időjárását legnagyobb mértékben a mérsékelt övezeti ciklonok és anticiklonok váltakozása határozza meg. A vizsgált nyomási szinteken általánosságban jelentős, nyugatias áramlás jellemző. A kezdeti részecskenyalábot elengedve ezért az kelet felé fog haladni, a részecskéket összekötő fonal alakja az áramlás bonyolultságával összefüggő alakot fog felvenni. Ahol erősen feltekeredik, ott valószínűleg egy ciklon lehetett jelen.
 
 Ezen a tértartományon csak a június 1-i, július 1-i, augusztus 1-i, illetve október 1-i adatokat használtam fel, a szeptember 1-i adatokkal való szimuláció során fellépő numerikus instabilitás miatt.
 
@@ -365,7 +370,7 @@ Az 500 hPa-os szintről a 2026. június 1-i, július 1-i, illetve október 1-i t
 
 Megfigyelhető, hogy az AIFS által előrejelzett fonalalak minden esetben jelentősen egyszerűbb, kevesebb finom térbeli struktúrát, feltekeredést tartalmaz. A három bemutatott helyzet közül egyértelműen a június 1-i volt a legbonyolultabb, ezt az AIFS és IFS előrejelzése is alátámasztja.
 
-A fonalhossz időbeli változását szemilogaritmikus skálán ábrázolva, illetve az erre illesztett egyenest a \ref{fig:hun500_top}. ábra mutatja be. Az ábrán az illesztett egyenes mellett fel van tüntetve a 95\%-os konfidencia-intervallum is. Az illesztett egyenest az illesztés hibájával együtt, illetve a konfidencia-intervallumokat a \ref{tab:hun500_top}. táblázatban foglaltam össze. Az 500 hPa-os szinten a fonalhossz időfüggését ábrázolva -- a tranziens szakasz kihagyása érdekében -- 90 és 168 óra közé határoztam meg az illesztési tartományt.
+A fonalhossz időbeli változását szemilogaritmikus skálán ábrázolva, illetve az erre illesztett egyenest a \ref{fig:hun500_top}. ábra mutatja be. Az ábrán az illesztett egyenes mellett fel van tüntetve a 95\%-os konfidenciaintervallumo is. Az illesztett egyenest az illesztés hibájával együtt, illetve a konfidenciaintervallumokat a \ref{tab:hun500_top}. táblázatban foglaltam össze. Az 500 hPa-os szinten a fonalhossz időfüggését ábrázolva -- a tranziens szakasz kihagyása érdekében -- 90 és 168 óra közé határoztam meg az illesztési tartományt.
 
 \begin{table}[H]
     \centering
@@ -435,7 +440,7 @@ A topologikus entrópia értékének különböző modellek általi előrejelzé
     \label{fig:hun500_top_bar}
 \end{figure}
 
-Megfigyelhető, hogy az AIFS előrejelzései alapján számolt topologikus entrópia minden esetben jelentősen alulmúlja az IFS előrejelzései alapján számoltat. Az eltérés jelentős: legnagyobb az eltérés augusztusban (48,2\%-a az AIFS az IFS-nek), a legkisebb pedig júniusban (72,8\%). Az eltérés mögött valószínűleg az elmosás jelensége áll: a neurális hálózat alapú előrejelző modell, az AIFS, négyzetes középérték hiba (MSE) alapú költségfüggvény minimalizálására van betanítva, melynek következtében a (helytelen) kiugró értékek előrejelzése a tanulás során büntetést von maga után. Ennek következtében a modell tehát igyekszik elkerülni kiugró értékek előrejelzését, és inkább egy ,,elmosott", átlagos értéket jelez előre. Az elmosást megfigyelhettük a fonalalak változását bemutató térképeken is: az AIFS által előrejelzett fonalalak jóval egyszerűbb térbeli struktúrájú volt, mint a fizikai egyenleteket megoldó IFS-é. Az átlagos értékek előrejelzésére való hajlam tehát kvalitatívan és kvantitatívan is egyértelműen megjelenik.
+Megfigyelhető, hogy az AIFS előrejelzései alapján számolt topologikus entrópia minden esetben jelentősen alulmúlja az IFS előrejelzései alapján számoltat. Az eltérés jelentős: legnagyobb az eltérés augusztusban (48,2\%-a az AIFS az IFS-nek), a legkisebb pedig júniusban (72,8\%). Az eltérés mögött valószínűleg az elmosás jelensége áll: a neurális hálózat alapú előrejelző modell, az AIFS, négyzetes középérték hiba (MSE) alapú költségfüggvény minimalizálására van betanítva, melynek következtében a (helytelen) kiugró értékek előrejelzése a tanulás során büntetést von maga után. Ennek következtében a modell tehát igyekszik elkerülni kiugró értékek előrejelzését, és inkább egy ,,elmosott", átlagos meteorológiai mezőt jelez előre. Az elmosás hatását megfigyelhettük a fonalalak változását bemutató térképeken is: az AIFS által előrejelzett fonalalak jóval egyszerűbb térbeli struktúrájú volt, mint a fizikai egyenleteket megoldó IFS-é. Az átlagos értékek előrejelzésére való hajlam tehát kvalitatívan és kvantitatívan is egyértelműen megjelenik.
 
 \subsubsection{700 hPa-os szint}
 A 700 hPa-os szintről a 2026. június 1-i, július 1-i, illetve október 1-i trajektória-szimulációkat mutatom be a \ref{fig:hun700_traj}. ábrán.
@@ -507,8 +512,6 @@ Megfigyelhető, hogy az AIFS által előrejelzett fonalalak ismét egyszerűbb t
     \caption{Fonalhossz időfüggése és topologikus entrópia illesztés, 700 hPa, k.h. 20$^\circ$ mentén é.sz. $[45^\circ, 55^\circ]$.}
     \label{fig:hun700_top}
 \end{figure}
-
-Észrevehető, hogy a fonalhossz időfüggése nem minden esetben állandó topologikus entrópiára utal, mint 500 hPa-on. Ennek oka lehet, hogy 700 hPa-on (kb. 3000 m) már van hatása a domborzatnak, a magasabb hegyeknek. Ez -- zavarva az áramlást -- minden időpillanatban kicsit eltérő topologikus entrópiájú káoszt okozhat, aminek köszönhető a függvény ,,hullámzása", a változó topologikus entrópia.
 
 Hasonlóan az 500 hPa-os szinthez, itt is ábrázoltam a kapott topologikus entrópiákat és az AIFS, illetve IFS előrejelzéseinek arányát.
 
@@ -609,7 +612,7 @@ A topologikus entrópiákat, illetve azok arányát a \ref{fig:hun850_top_bar}. 
 
 \subsection{A jet stream területe: k.h. $20^\circ$ mentén é.sz. $[50^\circ, 60^\circ]$}
 
-A poláris jet stream nagyon erős nyugati irányú szél (sebessége kb. 180 km/h ), mely a troposzféra tetején (kb. 9 km) fúj \cite{noauthor_jet_2026}. Az elhelyezkedésének megfelelően a vizsgált szintek közül 500 hPa-on látszik a legjobban, bár hatása a földfelszínhez közelebb is megjelenik. A poláris jet stream hullámzása miatt a részecskék változatos trajektóriákon mozoghatnak, indulhatnak keletre, északra, vagy délre is, a jet stream hullámainak megfelelően.
+A poláris jet stream nagyon erős nyugati irányú szél (sebessége kb. 180 km/h), mely a troposzféra tetején (kb. 9 km magasan) fúj. Az elhelyezkedésének megfelelően a vizsgált szintek közül 500 hPa-on látszik a legjobban, bár hatása a földfelszínhez közelebb is megjelenik. A poláris jet stream hullámzása miatt a részecskék változatos trajektóriákon mozoghatnak, indulhatnak keletre, északra, vagy délre is, a jet stream hullámainak megfelelően.
 
 \subsubsection{500 hPa-os szint}
 A június 1-i, július 1-i, illetve október 1-i ECMWF-modellfutások alapján készült trajektóriaelőrejelzéseket mutatja be a \ref{fig:jet500_traj}. ábra.
@@ -621,7 +624,7 @@ A június 1-i, július 1-i, illetve október 1-i ECMWF-modellfutások alapján k
     \label{fig:jet500_traj}
 \end{figure}
 
-A fonalalak változásából levonható következtetések alátámasztják a korábban megállapítottakat. Az október 1-i futáson készült trajektóriaelőrejelzésnél különösen szembetűnő az AIFS elmosása.
+A fonalalak változásából levonható következtetések alátámasztják a korábban megállapítottakat. Az október 1-i futáson készült trajektóriaelőrejelzésnél különösen szembetűnő az AIFS elmosása. Érdemes megfigyelni azt is, hogy amennyiben a fonal részecskéi nagyon szétterjednek, a kialakult fonalalak már kevésbé függ a kiindulási helytől, hiszen ebben az esetben már ugyanazok a légköri képződmények határozzák meg a mozgását és nyúlását. Ez jól megfigyelhető például a \ref{fig:jet500_traj} (a)-(b) és a \ref{fig:hun500_traj} (a)-(b) ábra összehasonlításakor.
 
 A topologikus entrópia meghatározásához szükséges illesztéseket, illetve azok eredményeképpen kapott értékeket bizonytalanságukkal együtt a \ref{tab:jet500_top}. táblázat és \ref{fig:jet500_top}. ábra szemlélteti. Az illesztés a futási idő 90. és 160. órája között történt.
 
@@ -684,7 +687,7 @@ A topologikus entrópia meghatározásához szükséges illesztéseket, illetve 
     \label{fig:jet500_top}
 \end{figure}
 
-A fonalhosszat idő függvényében ábrázolva nem látható jelentősebb hullámzás, a kezdeti tranziens szakasz is sima. A topologikus entrópiákat egymáshoz viszonyítva a \ref{fig:jet500_top_bar}. ábra mutatja be.
+A topologikus entrópiákat egymáshoz viszonyítva a \ref{fig:jet500_top_bar}. ábra mutatja be.
 
 \begin{figure}[H]
     \centering
@@ -949,7 +952,7 @@ Az illesztéseket, illetve számszerűsítésüket a \ref{tab:trade500_top}. tá
     \label{fig:trade500_top}
 \end{figure}
 
-A most kapott ábrákon az előzőektől jelentősen eltérő eredmények figyelhetőek meg. A júniusi előrejelzésben kb. az előrejelzés 90. órájáig szinte teljesen együtt halad az AIFS és IFS által előrejelzett fonalhossz. Ez azt jelenti, hogy egyformán kaotikus a két modell kb. 90 órán át. A 90. órától kezdve szétnyílik az olló, és -- megszokott módon -- az IFS rendelkezik nagyobb topologikus entrópiával.
+A most kapott ábrákon az előzőektől jelentősen eltérő eredmények figyelhetőek meg. A júniusi előrejelzésben kb. az előrejelzés 90. órájáig szinte teljesen együtt halad az AIFS és IFS által előrejelzett fonalhossz. Ez azt jelenti, hogy egyformán kaotikus a két modell felhasználásával számolt terjedés kb. 90 órán át. A 90. órától kezdve szétnyílik az olló, és -- megszokott módon -- az IFS rendelkezik nagyobb topologikus entrópiával.
 
 A júliusi előrejelzésben erős hullámzás figyelhető meg, azonban érdemes megfigyelni az $y$ tengelyt is: végig egy nagyságrenden belül marad a fonal hossza. Ez figyelhető meg a \ref{fig:trade500_traj}. ábrán is: a fonal alig nyúlik meg. 
 
@@ -966,7 +969,7 @@ A topologikus entrópiákat a \ref{fig:trade500_top_bar}. oszlopdiagramon is áb
     \label{fig:trade500_top_bar}
 \end{figure}
 
-Meglepő, hogy egyetlen esetben, júliusban az AIFS topologikus entrópiája 136,3\%-a az IFS-ének. Azonban ha megfigyeljük a \ref{fig:trade500_top}. ábrán a releváns illesztést, észrevehető, hogy az illesztés nem olyan jó, nem is igazán állt be konstans exponenciális növekedésű szakasz. Ennek oka lehet, hogy a fonal hossza nem növekedett meg eléggé. Ezek következtében ebből a tapasztalatból nem lehet hosszútávú következtetéseket levonni.
+Meglepő, hogy egyetlen esetben, júliusban az AIFS topologikus entrópiája 136,3\%-a az IFS-ének. Azonban ha megfigyeljük a \ref{fig:trade500_top}. ábrán a releváns illesztést, észrevehető, hogy az illesztés nem olyan jó, nem is igazán állt be konstans exponenciális növekedésű szakasz. Ennek oka lehet, hogy a fonal hossza nem növekedett meg eléggé, és a kapott nagyobb topologikus entrópia ellenére is a vizsgált időszak végéig jóval kisebb az AIFS-beli fonal hossza, mint az IFS-belié. Ezek következtében ebből a tapasztalatból nem lehet hosszútávú következtetéseket levonni.
 
 A többi esetben a szokásos eredményeket kaptam: a júliusi anomália kihagyásával az AIFS topologikus entrópiája átlagosan 62,6\%-a az IFS-ének. Legnagyobb eltérés októberben, a legkisebb augusztusban figyelhető meg.
 
@@ -1063,7 +1066,7 @@ A 700 hPa-on tapasztalható időbeli fonalhossz-változások sokkal ,,hullámosa
     \label{fig:trade700_top_bar}
 \end{figure}
 
-Az AIFS által előrejelzett topologikus entrópia átalgosan 61,7\%-a volt az IFS-ének. A legnagyobb eltérés augusztusban, a legkisebb júniusban volt tapasztalható. 
+Az AIFS által előrejelzett topologikus entrópia átlagosan 61,7\%-a volt az IFS-ének. A legnagyobb eltérés augusztusban, a legkisebb júniusban volt tapasztalható. 
 
 \subsubsection{850 hPa-os szint}
 A várakozásaim szerint 850 hPa-on lesz a passzátszelek tartományában a legbonyolultabb és leghosszabb fonalalak, mivel 1500 m-en már a domborzat hatása is erősen érződik, illeve a Hadley-cella trópusok felé visszatérő ágának is nagyobb hatása van, nagyobb a szélsebesség.
@@ -1164,11 +1167,11 @@ Az összes vizsgált eset közül itt átlagosan a legnagyobb az eltérés az IF
 \subsection{Összefoglalás}
 A dolgozatomban megvizsgáltam három nyomási szinten három földrajzi területen az elindított részecskék mozgását IFS-, illetve AIFS-szélelőrejelzésekkel meghajtott trajektóriamodellezéssel. A szimulációs idő 168 óra volt, hogy a szimuláció már elég reprezentatív legyen, de ne használjon fel túl sok erőforrást a trajektóriamodell futás közben.
 
-Az összes szimuláció eredményeképpen egybehangzóan kijött, hogy az AIFS kevésbé kaotikus, mint az IFS; a gépi tanulás alapú modell topologikus entrópiája minden esetben kisebb-nagyobb mértékben alulmúlta a fizikai modellét.
+Az összes szimuláció eredményeképpen egybehangzóan kijött, hogy az AIFS meteorológiai mezőiben való sodródás kevésbé kaotikus, mint az IFS-ében; a gépi tanulás alapú modellel kapott topologikus entrópia minden esetben kisebb-nagyobb mértékben alulmúlta a fizikai modellel kapott értéket.
 
 A földrajzi helyfüggést is megfigyeltem: a legbonyolultabb áramlás a vizsgált tartományok közül a k.h. 20$^\circ$ mentén az é.sz. $[45^\circ, 55^\circ]$ tartományban volt, a legsimább az áramlás a passzátszelek területén volt. 
 
-A nyomási szinttől is függött a modellelőrejelzések kaotikussága: az IFS-nél a fölfelszínhez közelebbi szinteken egyértelműen nagyobb volt a topologikus entrópia, az AIFS esetében nem volt ennyire egyértelmű a növekedés, minden szinten átlagosan szinte ugyanakkora volt a topologikus entrópia. Ezt szemlélteti a \ref{fig:h_p_dependence}. ábra, ahol a topologikus entrópia átlagos értékét ábrázotlam modellenként a nyomási szint függvényében.
+A nyomási szinttől is függött a modellelőrejelzések kaotikussága: az IFS-nél a földfelszínhez közelebbi szinteken egyértelműen nagyobb volt a topologikus entrópia, az AIFS esetében nem volt ennyire egyértelmű a növekedés, minden szinten átlagosan szinte ugyanakkora volt a topologikus entrópia. Ezt szemlélteti a \ref{fig:h_p_dependence}. ábra, ahol a topologikus entrópia átlagos értékét ábrázotlam modellenként a nyomási szint függvényében.
 
 \begin{figure}[H]
     \centering
@@ -1178,13 +1181,13 @@ A nyomási szinttől is függött a modellelőrejelzések kaotikussága: az IFS-
 \end{figure}
 
 \subsection{További kutatás lehetősége}
-Még pontosabb képet lehetne kapni a gépi tanulás alapú modell kaotikusságáról, ha további időpontokat, nyomási szinteket, illetve földrajzi helyeket vizsgálnék meg. Az állítások azonban a jelenleg felhasznált adatmennyiség mellett is konzekvensnek tűnnek.
+Még pontosabb képet lehetne kapni a gépi tanulás alapú modellel meghajtott szennyeződésterjedés kaotikusságáról, ha további időpontokat, nyomási szinteket, illetve földrajzi helyeket vizsgálnék meg. Az állítások azonban a jelenleg felhasznált adatmennyiség mellett is konzekvensnek tűnnek.
 
 Érdekes lehet továbbá megvizsgálni az AIFS modell korábbi verzióját, az AIFS v1-et: vajon a jelenlegi verzióhoz képest a korábbi verzió kevésbé tudta-e reprezentálni a káoszt. A közeljövőben az AIFS v3-at is publikálni tervezik, melyben a modellfejlesztők az elmosás (smoothing) kisebb mértékű megjelenését ígérik. Az új modell megjelenése után érdekes lehet annak az előrejelzéseit is megvizsgálni; a korábbi verziókkal, illetve a standardnak vett fizikai alapú IFS-előrejelzésekkel összevetni.
 
 
 \section{Köszönetnyilvánítás}
-A kutatás az NKKP STARTING 153030 projekt keretében készült. A Tudományos és Technológiai Minisztérium EKÖP-26 kódszámú Egyetemi Kutatói Ösztöndíj Programjának a Nemzeti Kutatási, Fejlesztési és Innovációs Alapból finanszírozott szakmai támogatásával készült.
+Köszönettel tartozom a témavezetőim, Leelőssy Ádám és Haszpra Tímea szakmai segítségéért, tanácsaikért. A kutatás az NKKP STARTING 153030 projekt keretében készült. A Tudományos és Technológiai Minisztérium EKÖP-26 kódszámú Egyetemi Kutatói Ösztöndíj Programjának a Nemzeti Kutatási, Fejlesztési és Innovációs Alapból finanszírozott szakmai támogatásával készült.
 
 \section{MI nyilatkozat}
 Nyilatkozom, hogy dolgozatom elkészítése során nem használtam mesterséges intelligencia (MI) alapú eszközöket a dolgozatom szövegének generálására. Az alább felsorolt feladatok elvégzésére a megadott MI alapú eszközöket alkalmaztam. A felsoroltakon túl más MI alapú eszközt nem használtam.
@@ -1202,7 +1205,7 @@ Nyilatkozom, hogy dolgozatom elkészítése során nem használtam mesterséges 
 
         forrásértelmezés & Gemini 3.5 Flash-Lite, Gemini 3.1 Pro & Bevezetés fejezet & segítség bonyolultabb koncepciók megértésében, szövegértelmezésben \\\hline
 
-        programozás & Gemini 3.1 Pro & Eredmények fejezet & Python kódban hibakeresés, repetatív munkák elvégzése (kód ábrázoló részének megírása), modell hatékonyabbá tételéhez tanácsok\\\hline
+        programozás & Gemini 3.1 Pro & Eredmények fejezet & Python kódban hibakeresés, repetatív munkák elvégzése (ábrázoló kódok megírása), modell hatékonyabbá tételéhez tanácsok\\\hline
 
         statisztikai elemzés & Gemini 3.1 Pro & Eredmények fejezet & segítség a konfidenciaintervallum kiszámolásában \\\hline        
         
