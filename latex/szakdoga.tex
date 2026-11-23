@@ -91,11 +91,11 @@ Az ANN rétegekbe rendeződött neuronokból áll. A rétegekben csomópontok va
 
 A McCulloch és Pitts által megalkotott ANN kijelentéslogikán alapult. A neuronok egy vagy több bináris (\textit{on/off} típusú) bemenetet (\textit{input}) fogadtak, és egyetlen kimenetet (\textit{output}) adtak. A biológiai neuronok aktiválódását úgy imitálták, hogy a mesterséges neuron csak akkor adott kimenetet, ha a kapott bemenetek száma elért egy bizonyos értéket. 
 
-Az egyik legegyszerűbb neurális hálózat a Perceptron, melyet 1957-ben Frank Rosenblatt mutatott be. A mesterséges neuronok úgynevezett küszöb logikai egységek (\textit{Threshold Logic Unit, TLU}), a bemeneti és kimeneti értékek pedig numerikusak; minden bemenet -- fontosságának megfelelően -- súlyozva van. A súlyozott bemenetek mellett egy $b$ konstans értéket felvevő elfogultság (\textit{bias}) is hozzáadásra szokott kerülni. A TLU egy súlyozott összeget számol, majd egy nemlineáris aktivációs függvényt hattat az eredményre, és ezt adja kimenetnek. Az aktivációs függvényre azért van szükség, hogy a lineárisnál bonyolultabb kapcsolatokat is képes legyen megtanulni az ANN. Aktivációs függvény lehet pl. a Heaviside-féle egységfüggvény, ReLu (\textit{REctified Linear Unit}, ami a negatív értékeket lenullázza), de gyakran valamilyen szigmoid függvényt alkalmaznak a célra, mint a tangens hiperbolikusz vagy a logisztikus függvény. A mesterséges neuron működését az alábbi egyenlet foglalja össze:
+Az egyik legegyszerűbb neurális hálózat a Perceptron, melyet 1957-ben Frank Rosenblatt mutatott be. A mesterséges neuronok úgynevezett küszöb logikai egységek (\textit{Threshold Logic Unit, TLU}), a bemeneti és kimeneti értékek pedig numerikusak; minden bemenet -- fontosságának megfelelően -- súlyozva van. A súlyozott bemenetek mellett egy $b$ konstans értéket felvevő elfogultság (\textit{bias}) is hozzáadásra szokott kerülni. A TLU egy súlyozott összeget számol, majd egy nemlineáris aktivációs függvényt hattat az eredményre, és ezt adja kimenetnek. Az aktivációs függvényre azért van szükség, hogy a lineárisnál bonyolultabb kapcsolatokat is képes legyen megtanulni az ANN. Aktivációs függvény lehet pl. a Heaviside-féle egységfüggvény, ReLU (\textit{REctified Linear Unit}, ami a negatív értékeket lenullázza), de gyakran valamilyen szigmoid függvényt alkalmaznak a célra, mint a tangens hiperbolikusz vagy a logisztikus függvény. A mesterséges neuron működését az alábbi egyenlet foglalja össze:
 \[
 s_j=\sum_{i=1}^m w_{ij}\cdot x_i + b_j; \quad \hat{y_j}=\varphi(s_j),
 \] 
-ahol $x_i$ az input, $b_j$ a bias, $w_{ij}$ a súlymátrix, $s_j$ a súlyozott összeg, $\varphi$ az aktivációs függvény, $\hat{y_j}$ pedig az output. A fentebb leírt mesterséges neuron működését mutatja be a \ref{fig:perceptron}. ábra. \cite{sharkawy_principle_2020,geron_hands-machine_2017,kelleher_deep_2019}.
+ahol $x_i$ a bemenet, $b_j$ az elfogultság, $w_{ij}$ a súlymátrix, $s_j$ a súlyozott összeg, $\varphi$ az aktivációs függvény, $\hat{y_j}$ pedig a kimenet. A fentebb leírt mesterséges neuron működését mutatja be az \ref{fig:perceptron}. ábra. \cite{sharkawy_principle_2020,geron_hands-machine_2017,kelleher_deep_2019}.
 
 \begin{figure}[H]
     \centering
@@ -119,7 +119,7 @@ Ahogy az \ref{fig:MLWP-review}. ábrán is látható, az MLWP-modelleknek alapve
 
 A CNN architektúrát LeCun et al. mutatta be 1995-ben \cite{lecun_convolutional_1995}. Az architektúra sturkturált rácsadatok, mint pl. képek feldolgozására alkalmas; klasszikusan a gépi látás területén (pl. képosztályozás) CNN modelleket használnak \cite{shi_deep_2025}. Az RNN-eket 2001-ben mutatta be Medsker \& Jain \cite{medsker_recurrent_2001}, mint időfüggő vagy szekvenciális adatokkal kapcsolatos feladatok (pl. idősor-előrejelzés) végzésére alkalmas architektúrákat. A modell rekurrens módon tanul a kapott adatsorozatból egy belső rejtett állapot segítségével, ami tartalmazza a korábbi rejtett állapotokat és az aktuális bemenetet. A CNN-nél és RNN-nél sokkal fontosabb architektúrák azonban az időjárás-előrejelzésben a GNN-ek és a transzformer alapú neurális hálózatok \cite{shi_deep_2025}.
 
-A GNN-t 2008-ban mutatták be Scarselli et al. \cite{scarselli_graph_2008}. Az architektúra $\mathcal{G}=(\mathcal{V, E})$ $\mathcal{V}$ csúccsal és $\mathcal{E}$ éllel rendelkező gráfszerkezetű adatok feldolgozására alkalmas, ahol a csúcsok a vizsgált dolgokat, az élek pedig a közöttük fennálló kapcsolatokat reprezentálják. Ha a GNN a tér- és időbeli függőségeket is jól modellezi, tér-idő GNN-ekről (\textit{Spatio-temporal GNN, ST-GNN}) beszélünk, melyeket a $\mathcal{G}_t=\mathcal{(V,E},t)$ jelöléssel szoktak illetni. Itt a csúcsok és az élek térbeli kapcsolatokat írnak le; a vizsgált változó $i$ térbeli helyen és $t$ időpillanatban felvett vektorát a $v_t^i$ vektor reprezentálja. A térbeli függőségek figyelembevétele az egyes csomópontok szomszédaikkal való kommunikációján (\textit{message passing}) keresztül valósul meg. Az időbeli kapcsolatokat szekvenciális modellekkel (mint az RNN) lehet figyelembe venni. A csomópontok $h_t^i$ rejtett állapotai a $v^i_{t+1}$ üzenetvektorokkal kerülnek frissítésre az alábbi módon:
+A GNN-t 2008-ban mutatták be Scarselli et al. \cite{scarselli_graph_2008}. Az architektúra $\mathcal{G}=(\mathcal{V, E})$ $\mathcal{V}$ csúccsal és $\mathcal{E}$ éllel rendelkező gráfszerkezetű adatok feldolgozására alkalmas, ahol a csúcsok a vizsgált objektumokat, az élek pedig a közöttük fennálló kapcsolatokat reprezentálják. Ha a GNN a tér- és időbeli függőségeket is jól modellezi, tér-idő GNN-ekről (\textit{Spatio-temporal GNN, ST-GNN}) beszélünk, melyeket a $\mathcal{G}_t=\mathcal{(V,E},t)$ jelöléssel szoktak illetni. Itt a csúcsok és az élek térbeli kapcsolatokat írnak le; a vizsgált változó $i$ térbeli helyen és $t$ időpillanatban felvett vektorát a $v_t^i$ vektor reprezentálja. A térbeli függőségek figyelembevétele az egyes csomópontok szomszédaikkal való kommunikációján (\textit{message passing}) keresztül valósul meg. Az időbeli kapcsolatokat szekvenciális modellekkel (mint az RNN) lehet figyelembe venni. A csomópontok $h_t^i$ rejtett állapotai a $v^i_{t+1}$ üzenetvektorokkal kerülnek frissítésre az alábbi módon:
 \[
 v_{t+1}^i = \sum_{j \in N(i)} M_t(h_t^i, h_t^j, e_{ij}); \quad h_{t+1}^i = \sigma(h_t^i, v_{t+1}^i),
 \]
@@ -259,7 +259,6 @@ D_0=\lim_{\varepsilon \rightarrow 0}\frac{\ln N(\varepsilon)}{\ln 1/\varepsilon}
 adja meg a fraktáldimenziót. A dobozszámláló (\textit{box-counting}) módszer nem önmagában az idősor görbéjére alkalmazva jelzi a káoszt, hanem a fázistérbeli attraktor geometriájának vizsgálatakor: a nem egész (fraktál) dimenzió a kaotikus rendszerekre jellemző egyik lehetséges sajátosság \cite{tel_kaotikus_2002,panis_detection_2020}.
 
 Másik módszer az idősoradatokban a káosz észlelésére a korrelációs dimenzió ($D_2$) vizsgálata, amellyel szintén a fázistérbeli alakzatot jellemezzük. A korrelációs dimenzió kiszámítása során megszámoljuk, hogy hány pontpár ($C(\varepsilon)$) van egymáshoz közelebb, mint egy nagyon kicsi $\varepsilon$ küszöbérték \cite{panis_detection_2020}. Amennyiben teljesül a $C(\varepsilon) \propto \varepsilon^{D_2}$ arányosság, akkor $D_2$-t korrelációs dimenziónak nevezzük, és a következő módon számítható \cite{panis_detection_2020, tel_kaotikus_2002}:
-Másik módszer az idősoradatokban a káosz észlelésére a korrelációs dimenzió ($D_2$) vizsgálata, amellyel szintén a fázistérbeli alakzatot jellemezzük. A korrelációs dimenzió kiszámítása során megszámoljuk, hogy hány pontpár ($C(\varepsilon)$) van egymáshoz közelebb, mint egy nagyon kicsi $\varepsilon$ küszöbérték \cite{panis_detection_2020}. Amennyiben teljesül a $C(\varepsilon) \propto \varepsilon^{D_2}$ arányosság, akkor $D_2$-t korrelációs dimenziónak nevezzük, és a következő módon számítható \cite{panis_detection_2020, tel_kaotikus_2002}:
 \[
 D_2=\lim_{\varepsilon \rightarrow 0}\frac{\ln C(\varepsilon)}{\ln \varepsilon}.
 \]
@@ -284,7 +283,7 @@ A sodródó anyagok szétterjedésében felbukkanó kaotikus jelek detektálás�
 
 A terjedési modellek célja, hogy a meteorológiai viszonyok ismeretében modellezzék, hogy a légkörben egy részecske hogyan terjed. A terjedési modellek időjárás-előrejelző modellekkel vannak meghajtva, azok előrejelzései szolgáltatják a széladatokat a részecske mozgásának modellezéséhez. A terjedési modellekkel figyelembe lehet venni a felszínközeli hatásokat, elsősorban a turbulens diffúziót, azonban az bonyolulttá teszi a modellt. Ha alacsonyabb nyomású izobárszinteken vizsgáljuk a részecskék terjedését, dominánsan csak a szél általi advekció fogja befolyásolni a terjedésüket, így a turbulens diffúzió hatása elhanyagolhatóvá válik. 
 
-A szimulált trajektóriák felhasználásával is ki lehet mutatni a káosz jelenlétét a légköri szennyeződések sodródásában. Ez legegyszerűbben a topologikus entrópia ($h$) segítségével tehető meg. A mennyiség a fent említettek szerint jellemzi egy kezdetben $L_0$ hosszú fonaldarab megnyúlását. Minél nagyobb $h$, annál bonyolultabb a mozgás (jobban megnyúlik a kezdeti fonaldarab). Ha $h>0$, a mozgás kaotikus. A topologikus entrópia becslése sok részecske pályájának nyomon követésével lehetséges.
+A szimulált trajektóriák felhasználásával is ki lehet mutatni a káosz jelenlétét a légköri szennyeződések sodródásában. Ez legegyszerűbben a topologikus entrópia ($h$) segítségével tehető meg. A mennyiség a fent említettek szerint jellemzi egy kezdetben $L_0$ hosszú fonaldarab megnyúlását. Minél nagyobb $h$, annál bonyolultabb a mozgás (jobban megnyúlik a kezdeti fonaldarab). Ha $h>0$, a mozgás kaotikus. A topologikus entrópia becslése sok részecske pályájának nyomon követésével lehetséges \cite{leelossy_szennyezoanyagok_2017, haszpra_replat_2014}.
 
 \section{Adat, módszer}
 Vizsgálataim során kétdimenziós trajektóriamodellt hajtottam meg 2026. június 1-jén, július 1-jén, augusztus 1-jén, szeptember 1-jén, illetve október 1-jén UTC szerint 0 órakor készült ECMWF-IFS, illetve ECMWF-AIFS szélelőrejelzésekkel. Az előrejelzések középtávúak (360 órára előre készülnek el 6 órás lépésekkel), determinisztikusak, és jelentős számú izobárszintre (1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 100, 50 hPa) elkészülnek $0,25^\circ \times 0,25^\circ$ globális térbeli felbontással.
@@ -303,7 +302,7 @@ A modell bemenetként várja:
 
 Mivel a modellelőrejelzések csak 6 óránként állnak rendelkezésre, a trajektóriamodell lineáris interpolációt végez a köztes időpillanatok szélsebességének kiszámítására, amivel egy időben folytonosan változó szélsebesség-mezőt hoz létre.
 
-Az elengedett részecskék trajektóriájának kiszámításához az alkalmazott modell a következő differenciálegyenlet-rendszert oldja meg minden részecskére:
+Az elengedett részecskék trajektóriájának kiszámításához az alkalmazott modell a következő dif\-fe\-ren\-ci\-ál\-egyen\-let-rend\-szert oldja meg minden részecskére:
 \begin{equation}\label{eq:lambda}
 \frac{d \lambda}{d t} = u\cdot C \cdot \frac{1}{R \cdot \cos \varphi},
 \end{equation}
@@ -369,7 +368,7 @@ Az 500 hPa-os szintről a 2026. június 1-i, július 1-i, illetve október 1-i t
 
 Megfigyelhető, hogy az AIFS által előrejelzett fonalalak minden esetben jelentősen egyszerűbb, kevesebb finom térbeli struktúrát, feltekeredést tartalmaz. A három bemutatott helyzet közül egyértelműen a június 1-i volt a legbonyolultabb, ezt az AIFS és IFS előrejelzése is alátámasztja.
 
-A fonalhossz időbeli változását szemilogaritmikus skálán ábrázolva, illetve az erre illesztett egyenest a \ref{fig:hun500_top}. ábra mutatja be. Az ábrán az illesztett egyenes mellett fel van tüntetve a 95\%-os konfidenciaintervallumo is. Az illesztett egyenest az illesztés hibájával együtt, illetve a konfidenciaintervallumokat a \ref{tab:hun500_top}. táblázatban foglaltam össze. Az 500 hPa-os szinten a fonalhossz időfüggését ábrázolva -- a tranziens szakasz kihagyása érdekében -- 90 és 168 óra közé határoztam meg az illesztési tartományt.
+A fonalhossz időbeli változását szemilogaritmikus skálán ábrázolva, illetve az erre illesztett egyenest a \ref{fig:hun500_top}. ábra mutatja be. Az ábrán az illesztett egyenes mellett fel van tüntetve a 95\%-os konfidenciaintervallum is. Az illesztett egyenest az illesztés hibájával együtt, illetve a konfidenciaintervallumokat a \ref{tab:hun500_top}. táblázatban foglaltam össze. Az 500 hPa-os szinten a fonalhossz időfüggését ábrázolva -- a tranziens szakasz kihagyása érdekében -- 90 és 168 óra közé határoztam meg az illesztési tartományt.
 
 \begin{table}[H]
     \centering
@@ -378,7 +377,7 @@ A fonalhossz időbeli változását szemilogaritmikus skálán ábrázolva, ille
         \begin{tabular}{|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,02083(4) & 0,0182(2) & 0,0146(1) & 0,01499(9) \\\hline
-            \textbf{95\% CI [1/h]} & (0,02074; 0,02090) & (0,0179; 0,0186) & (0,0144; 0,0148) & (0,01481; 0,01517) \\\hline
+            95\% CI [1/h] & (0,02074; 0,02090) & (0,0179; 0,0186) & (0,0144; 0,0148) & (0,01481; 0,01517) \\\hline
         \end{tabular}
         \caption{AIFS}
     \end{subtable}
@@ -390,11 +389,11 @@ A fonalhossz időbeli változását szemilogaritmikus skálán ábrázolva, ille
         \begin{tabular}{|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,02862(8) & 0,0282(1) & 0,0303(1) & 0,02472(4) \\\hline
-            \textbf{95\% CI [1/h]} & (0,02847; 0,02877) & (0,0279; 0,0284) & (0,0300; 0,0305) & (0,02463; 0,02480) \\\hline
+            95\% CI [1/h] & (0,02847; 0,02877) & (0,0279; 0,0284) & (0,0300; 0,0305) & (0,02463; 0,02480) \\\hline
         \end{tabular}
         \caption{IFS}
     \end{subtable}
-    \caption{Topologikus entrópia ($h$) és a 95\%-os konfidenciaintervallum különböző kezdőidőkre.}
+    \caption{Topologikus entrópia ($h$) és a 95\%-os konfidenciaintervallum különböző kezdőidőkre. $h$ értékének utolsó tizedesjegybeli, az egyenesillesztésből adódó bizonytalanságát a zárójelben lévő érték adja meg.}
     \label{tab:hun500_top}
 \end{table}
 
@@ -460,7 +459,7 @@ Megfigyelhető, hogy az AIFS által előrejelzett fonalalak ismét egyszerűbb t
         \begin{tabular}{|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,02407(5) & 0,01872(8) & 0,0197(1) & 0,0105(1) \\\hline
-            \textbf{95\% CI [1/h]} & (0,02397; 0,02416) & (0,01855; 0,01889) & (0,0194; 0,0199) & (0,0103; 0,0107) \\\hline
+            95\% CI [1/h] & (0,02397; 0,02416) & (0,01855; 0,01889) & (0,0194; 0,0199) & (0,0103; 0,0107) \\\hline
         \end{tabular}
         \caption{AIFS}
     \end{subtable}
@@ -472,7 +471,7 @@ Megfigyelhető, hogy az AIFS által előrejelzett fonalalak ismét egyszerűbb t
         \begin{tabular}{|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,0297(1) & 0,02958(3) & 0,0334(2) & 0,02520(9) \\\hline
-            \textbf{95\% CI [1/h]} & (0,0294; 0,0299) & (0,02951; 0,02965) & (0,0331; 0,0338) & (0,02502; 0,02538) \\\hline
+            95\% CI [1/h] & (0,0294; 0,0299) & (0,02951; 0,02965) & (0,0331; 0,0338) & (0,02502; 0,02538) \\\hline
         \end{tabular}
         \caption{IFS}
     \end{subtable}
@@ -521,7 +520,7 @@ Hasonlóan az 500 hPa-os szinthez, itt is ábrázoltam a kapott topologikus entr
     \label{fig:hun700_top_bar}
 \end{figure}
 
-A \ref{fig:hun700_top_bar}. ábra alapján látható, hogy az augusztus az IFS számára ,,bonyolultabb" volt, mint a június, az AIFS ,,kevésbé kaotikusnak" érezte az augusztust. Az AIFS és IFS előrejelzése közt átlagosan 0,4\%-kal nagyobb az eltérés, mint 500 hPa-on -- ez azt jelenti, hogy minimálisan jobban megjelenik az AIFS elmosása 700 hPa-on.
+A \ref{fig:hun700_top_bar}. ábra alapján látható, hogy az augusztus az IFS számára ,,bonyolultabb" volt, mint a június; ezzel szemben az AIFS ,,kevésbé kaotikusnak" érezte az augusztust, mint a júniust. Az AIFS és IFS előrejelzése közt átlagosan 0,4\%-kal nagyobb az eltérés, mint 500 hPa-on -- ez azt jelenti, hogy minimálisan jobban megjelenik az AIFS elmosása 700 hPa-on.
 
 
 \subsubsection{850 hPa-os szint}
@@ -534,7 +533,7 @@ A 850 hPa-os szinten is a 2026. június 1-i, július 1-i, illetve október 1-i t
     \label{fig:hun850_traj}
 \end{figure}
 
-Az összes időponthoz tartozó ábrán szembetűnő, hogy az AIFS által előrejelzett fonal alakja jelentősen egyszerűbb térbeli struktúrájú, mint az IFS-é, mintha az AIFS fonalát az IFS fonalának kisimításával kapnánk. 
+A bemutatott időpontokhoz tartozó ábrán szembetűnő, hogy az AIFS által előrejelzett fonal alakja jelentősen egyszerűbb térbeli struktúrájú, mint az IFS-é, mintha az AIFS fonalát az IFS fonalának kisimításával kapnánk. 
 
 A \ref{tab:hun850_top}. táblázatban a fonalhosszra illesztést bizonytalanságával együtt, illetve a 95\%-os konfidenciaintervallumot tüntettem fel. A \ref{fig:hun850_top}. ábrán az egyenesillesztések a konfidenciaintervallummal együtt vannak ábrázolva. A 850 hPa-os szinten a fonalhossz időfüggését ábrázolva -- a tranziens szakasz kihagyása érdekében -- 50 és 168 óra közé határoztam meg az illesztési tartományt.
 
@@ -545,7 +544,7 @@ A \ref{tab:hun850_top}. táblázatban a fonalhosszra illesztést bizonytalanság
         \begin{tabular}{|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,0245(2) & 0,02448(8) & 0,0162(3) & 0,01621(7) \\\hline
-            \textbf{95\% CI [1/h]} & (0,0242; 0,0248) & (0,02433; 0,02464) & (0,0157; 0,0168) & (0,01608; 0,01634) \\\hline
+            95\% CI [1/h] & (0,0242; 0,0248) & (0,02433; 0,02464) & (0,0157; 0,0168) & (0,01608; 0,01634) \\\hline
         \end{tabular}
         \caption{AIFS}
     \end{subtable}
@@ -557,7 +556,7 @@ A \ref{tab:hun850_top}. táblázatban a fonalhosszra illesztést bizonytalanság
         \begin{tabular}{|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,0337(2) & 0,0356(1) & 0,03322(8) & 0,0310(3) \\\hline
-            \textbf{95\% CI [1/h]} & (0,0334; 0,0340) & (0,0353; 0,0359) & (0,03306; 0,03338) & (0,0305; 0,0316) \\\hline
+            95\% CI [1/h] & (0,0334; 0,0340) & (0,0353; 0,0359) & (0,03306; 0,03338) & (0,0305; 0,0316) \\\hline
         \end{tabular}
         \caption{IFS}
     \end{subtable}
@@ -597,7 +596,7 @@ A \ref{tab:hun850_top}. táblázatban a fonalhosszra illesztést bizonytalanság
     \label{fig:hun850_top}
 \end{figure}
 
-850 hPa-on (kb. 1500 m) is megfigyelhető a topologikus entrópia változása, a függvény ,,hullámzása", aminek oka a domborzat lehet.
+850 hPa-on (kb. 1500 m) erőteljesebben megfigyelhető a topologikus entrópia változása, a függvény ,,hullámzása", aminek oka a domborzat lehet.
 
 A topologikus entrópiákat, illetve azok arányát a \ref{fig:hun850_top_bar}. ábrán mutatom be. Ismét észrevehető, hogy az AIFS topologikus entrópiája minden esetben alulmúlja az IFS-ét, átlagosan 60,6\%-a az AIFS előrejelzése az IFS előrejelzésének. A vizsgált nyomási szintek közül itt van átlagosan a legközelebb a két előrejelzés egymáshoz. A legközelebb a két előrejelzés júniusban, a legtávolabb augusztusban van. 
 
@@ -634,7 +633,7 @@ A topologikus entrópia meghatározásához szükséges illesztéseket, illetve 
         \begin{tabular}{|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,02482(7) & 0,0215(2) & 0,0218(1) & 0,0172(1) \\\hline
-            \textbf{95\% CI [1/h]} & (0,02467; 0,02497) & (0,0211; 0,0219) & (0,0216; 0,0221) & (0,0170; 0,0174) \\\hline
+            95\% CI [1/h] & (0,02467; 0,02497) & (0,0211; 0,0219) & (0,0216; 0,0221) & (0,0170; 0,0174) \\\hline
         \end{tabular}
         \caption{AIFS}
     \end{subtable}
@@ -646,7 +645,7 @@ A topologikus entrópia meghatározásához szükséges illesztéseket, illetve 
         \begin{tabular}{|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,02942(4) & 0,02387(9) & 0,03073(4) & 0,0234(1) \\\hline
-            \textbf{95\% CI [1/h]} & (0,02934; 0,02950) & (0,02369; 0,02405) & (0,03065; 0,03082) & (0,0232; 0,0237) \\\hline
+            95\% CI [1/h] & (0,02934; 0,02950) & (0,02369; 0,02405) & (0,03065; 0,03082) & (0,0232; 0,0237) \\\hline
         \end{tabular}
         \caption{IFS}
     \end{subtable}
@@ -723,7 +722,7 @@ Mindenhol az AIFS előrejelzése egyszerűbb fonalalakot vár. Számszerűsítve
         \begin{tabular}{|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,0212(1) & 0,0169(3) & 0,0202(1) & 0,0124(2) \\\hline
-            \textbf{95\% CI [1/h]} & (0,0210; 0,0214) & (0,0163; 0,0175) & (0,0199; 0,0204) & (0,0120; 0,0127) \\\hline
+            95\% CI [1/h] & (0,0210; 0,0214) & (0,0163; 0,0175) & (0,0199; 0,0204) & (0,0120; 0,0127) \\\hline
         \end{tabular}
         \caption{AIFS}
     \end{subtable}
@@ -735,7 +734,7 @@ Mindenhol az AIFS előrejelzése egyszerűbb fonalalakot vár. Számszerűsítve
         \begin{tabular}{|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,02834(8) & 0,03245(10) & 0,0331(2) & 0,0230(2) \\\hline
-            \textbf{95\% CI [1/h]} & (0,02818; 0,02849) & (0,03226; 0,03265) & (0,0328; 0,0335) & (0,0227; 0,0234) \\\hline
+            95\% CI [1/h] & (0,02818; 0,02849) & (0,03226; 0,03265) & (0,0328; 0,0335) & (0,0227; 0,0234) \\\hline
         \end{tabular}
         \caption{IFS}
     \end{subtable}
@@ -804,7 +803,7 @@ Az AIFS és IFS által előrejelzett fonalalak-változás a megszokott képet mu
         \begin{tabular}{|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,02290(7) & 0,0240(2) & 0,0104(4) & 0,01621(7) \\\hline
-            \textbf{95\% CI [1/h]} & (0,02276; 0,02304) & (0,0237; 0,0244) & (0,0096; 0,0112) & (0,01608; 0,01634) \\\hline
+            95\% CI [1/h] & (0,02276; 0,02304) & (0,0237; 0,0244) & (0,0096; 0,0112) & (0,01608; 0,01634) \\\hline
         \end{tabular}
         \caption{AIFS}
     \end{subtable}
@@ -816,7 +815,7 @@ Az AIFS és IFS által előrejelzett fonalalak-változás a megszokott képet mu
         \begin{tabular}{|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,0300(1) & 0,0355(2) & 0,0335(2) & 0,0310(3) \\\hline
-            \textbf{95\% CI [1/h]} & (0,0298; 0,0302) & (0,0351; 0,0358) & (0,0331; 0,0338) & (0,0305; 0,0316) \\\hline
+            95\% CI [1/h] & (0,0298; 0,0302) & (0,0351; 0,0358) & (0,0331; 0,0338) & (0,0305; 0,0316) \\\hline
         \end{tabular}
         \caption{IFS}
     \end{subtable}
@@ -885,13 +884,13 @@ Az illesztéseket, illetve számszerűsítésüket a \ref{tab:trade500_top}. tá
 
 \begin{table}[H]
     \centering
-    \small
+    \footnotesize
     \begin{subtable}{\textwidth}
         \centering
         \begin{tabular}{|c|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.09.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,00854(6) & 0,0109(1) & 0,01153(5) & 0,00930(5) & 0,0124(1) \\\hline
-            \textbf{95\% CI [1/h]} & (0,00842; 0,00867) & (0,0106; 0,0112) & (0,01144; 0,01163) & (0,00919; 0,00940) & (0,0121; 0,0126) \\\hline
+            95\% CI [1/h] & (0,00842; 0,00867) & (0,0106; 0,0112) & (0,01144; 0,01163) & (0,00919; 0,00940) & (0,0121; 0,0126) \\\hline
         \end{tabular}
         \caption{AIFS}
     \end{subtable}
@@ -903,7 +902,7 @@ Az illesztéseket, illetve számszerűsítésüket a \ref{tab:trade500_top}. tá
         \begin{tabular}{|c|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.09.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,01298(9) & 0,0080(1) & 0,0174(2) & 0,01439(4) & 0,02288(8) \\\hline
-            \textbf{95\% CI [1/h]} & (0,01281; 0,01316) & (0,0078; 0,0083) & (0,0170; 0,0178) & (0,01431; 0,01447) & (0,02273; 0,02303) \\\hline
+            95\% CI [1/h] & (0,01281; 0,01316) & (0,0078; 0,0083) & (0,0170; 0,0178) & (0,01431; 0,01447) & (0,02273; 0,02303) \\\hline
         \end{tabular}
         \caption{IFS}
     \end{subtable}
@@ -990,13 +989,13 @@ Az illesztéseket bizonytalanságukkal együtt a \ref{tab:trade700_top}. táblá
 
 \begin{table}[H]
     \centering
-    \small
+    \footnotesize
     \begin{subtable}{\textwidth}
         \centering
         \begin{tabular}{|c|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.09.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,0177(1) & 0,0096(2) & 0,0071(2) & 0,0104(4) & 0,0129(2) \\\hline
-            \textbf{95\% CI [1/h]} & (0,0175; 0,0180) & (0,0093; 0,0100) & (0,0067; 0,0075) & (0,0096; 0,0113) & (0,0125; 0,0134) \\\hline
+            95\% CI [1/h] & (0,0175; 0,0180) & (0,0093; 0,0100) & (0,0067; 0,0075) & (0,0096; 0,0113) & (0,0125; 0,0134) \\\hline
         \end{tabular}
         \caption{AIFS}
     \end{subtable}
@@ -1008,7 +1007,7 @@ Az illesztéseket bizonytalanságukkal együtt a \ref{tab:trade700_top}. táblá
         \begin{tabular}{|c|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.09.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,0244(3) & 0,0137(3) & 0,01684(6) & 0,0167(1) & 0,0211(2) \\\hline
-            \textbf{95\% CI [1/h]} & (0,0238; 0,0249) & (0,0132; 0,0142) & (0,01671; 0,01697) & (0,0164; 0,0169) & (0,0208; 0,0215) \\\hline
+            95\% CI [1/h] & (0,0238; 0,0249) & (0,0132; 0,0142) & (0,01671; 0,01697) & (0,0164; 0,0169) & (0,0208; 0,0215) \\\hline
         \end{tabular}
         \caption{IFS}
     \end{subtable}
@@ -1068,7 +1067,7 @@ A 700 hPa-on tapasztalható időbeli fonalhossz-változások sokkal ,,hullámosa
 Az AIFS által előrejelzett topologikus entrópia átlagosan 61,7\%-a volt az IFS-ének. A legnagyobb eltérés augusztusban, a legkisebb júniusban volt tapasztalható. 
 
 \subsubsection{850 hPa-os szint}
-A várakozásaim szerint 850 hPa-on lesz a passzátszelek tartományában a legbonyolultabb és leghosszabb fonalalak, mivel 1500 m-en már a domborzat hatása is erősen érződik, illeve a Hadley-cella trópusok felé visszatérő ágának is nagyobb hatása van, nagyobb a szélsebesség.
+A várakozásaim szerint 850 hPa-on lesz a passzátszelek tartományában a legbonyolultabb és leghosszabb fonalalak, mivel 1500 m-en már a domborzat hatása is erősen érződik, illeve a Hadley-cella trópusok felé visszatérő ágának is nagyobb hatása van.
 
 A fonalalakokat a \ref{fig:trade850_traj}. ábra mutatja be július 1-én, szeptember 1-én és október 1-én indított előrejelzések alapján az előrejelzés 168. órájában.
 
@@ -1079,17 +1078,17 @@ A fonalalakokat a \ref{fig:trade850_traj}. ábra mutatja be július 1-én, szept
     \label{fig:trade850_traj}
 \end{figure}
 
-A várakozásknak megfelelően alakultak a fonalak, habár általában a kontinensen belül maradtak. A topologikus entrópiák illesztését, illetve számszerűsítésüket a \ref{fig:trade850_top}. ábra és \ref{tab:trade850_top}. táblázat mutatja be.
+A várakozásoknak megfelelően alakultak a fonalak, habár általában a kontinensen belül maradtak. A topologikus entrópiák illesztését, illetve számszerűsítésüket a \ref{fig:trade850_top}. ábra és \ref{tab:trade850_top}. táblázat mutatja be.
 
 \begin{table}[H]
     \centering
-    \small
+    \footnotesize
     \begin{subtable}{\textwidth}
         \centering
         \begin{tabular}{|c|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.09.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,00835(8) & 0,0177(4) & 0,0145(2) & 0,00689(7) & 0,0140(1) \\\hline
-            \textbf{95\% CI [1/h]} & (0,00820; 0,00850) & (0,0170; 0,0185) & (0,0141; 0,0149) & (0,00676; 0,00702) & (0,0137; 0,0143) \\\hline
+            95\% CI [1/h] & (0,00820; 0,00850) & (0,0170; 0,0185) & (0,0141; 0,0149) & (0,00676; 0,00702) & (0,0137; 0,0143) \\\hline
         \end{tabular}
         \caption{AIFS}
     \end{subtable}
@@ -1101,7 +1100,7 @@ A várakozásknak megfelelően alakultak a fonalak, habár általában a kontine
         \begin{tabular}{|c|c|c|c|c|c|}\hline
             & \textbf{2026.06.01.} & \textbf{2026.07.01.} & \textbf{2026.08.01.} & \textbf{2026.09.01.} & \textbf{2026.10.01.} \\\hline
             $h$ [1/h] & 0,0250(1) & 0,0280(2) & 0,0340(3) & 0,0150(2) & 0,0237(2) \\\hline
-            \textbf{95\% CI [1/h]} & (0,0248; 0,0253) & (0,0277; 0,0283) & (0,0334; 0,0347) & (0,0147; 0,0153) & (0,0232; 0,0241) \\\hline
+            95\% CI [1/h] & (0,0248; 0,0253) & (0,0277; 0,0283) & (0,0334; 0,0347) & (0,0147; 0,0153) & (0,0232; 0,0241) \\\hline
         \end{tabular}
         \caption{IFS}
     \end{subtable}
@@ -1111,6 +1110,7 @@ A várakozásknak megfelelően alakultak a fonalak, habár általában a kontine
 
 \begin{figure}[H]
     \centering
+    \footnotesize
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{"../figures/topo/trade850_0601.png"}
@@ -1149,7 +1149,7 @@ A várakozásknak megfelelően alakultak a fonalak, habár általában a kontine
     \label{fig:trade850_top}
 \end{figure}
 
-A fonalhossz időbeli változásában nagyon erős ,,hullámzás" figyelhető meg, melynek fő oka a 850 hPa-on már nagyobb hatással bíró domborzat lehet. Szembetűnő, hogy az AIFS topologikus entrópiája júniusban és júliusban jelentősen kisebb, mint az IFS-é -- a \ref{fig:trade850_traj}. ábrán bemutatott mintákon is ez volt észrevehető. A pontos összehasonlítást a \ref{fig:trade850_top_bar}. ábra mutatja be.
+A fonalhossz időbeli változásában nagyon erős ,,hullámzás" figyelhető meg, melynek fő oka a 850 hPa-on már nagyobb hatással bíró domborzat lehet. A topologikus entrópiák számszerű összehasonlítását a \ref{fig:trade850_top_bar}. ábra mutatja be. Szembetűnő, hogy az AIFS topologikus entrópiája júniusban és augusztusban jelentősen kisebb, mint az IFS-é.
 
 \begin{figure}[H]
     \centering
@@ -1166,27 +1166,27 @@ Az összes vizsgált eset közül itt átlagosan a legnagyobb az eltérés az IF
 \subsection{Összefoglalás}
 A dolgozatomban megvizsgáltam három nyomási szinten három földrajzi területen az elindított részecskék mozgását IFS-, illetve AIFS-szélelőrejelzésekkel meghajtott trajektóriamodellezéssel. A szimulációs idő 168 óra volt, hogy a szimuláció már elég reprezentatív legyen, de ne használjon fel túl sok erőforrást a trajektóriamodell futás közben.
 
-Az összes szimuláció eredményeképpen egybehangzóan kijött, hogy az AIFS meteorológiai mezőiben való sodródás kevésbé kaotikus, mint az IFS-ében; a gépi tanulás alapú modellel kapott topologikus entrópia minden esetben kisebb-nagyobb mértékben alulmúlta a fizikai modellel kapott értéket.
+Az összes szimuláció eredményeképpen egybehangzó eredményként kaptam, hogy az AIFS meteorológiai mezőiben való sodródás kevésbé kaotikus, mint az IFS-ében; a gépi tanulás alapú modellel kapott topologikus entrópia minden esetben kisebb-nagyobb mértékben alulmúlta a fizikai modellel kapott értéket.
 
-A földrajzi helyfüggést is megfigyeltem: a legbonyolultabb áramlás a vizsgált tartományok közül a k.h. 20$^\circ$ mentén az é.sz. $[45^\circ, 55^\circ]$ tartományban volt, a legsimább az áramlás a passzátszelek területén volt. 
+A földrajzi helyfüggést is megfigyeltem: a legbonyolultabb áramlás a vizsgált tartományok közül a k.h. 20$^\circ$ mentén az é.sz. $[45^\circ, 55^\circ]$ tartományban, a legsimább a passzátszelek területén volt. 
 
-A nyomási szinttől is függött a modellelőrejelzések kaotikussága: az IFS-nél a földfelszínhez közelebbi szinteken egyértelműen nagyobb volt a topologikus entrópia, az AIFS esetében nem volt ennyire egyértelmű a növekedés, minden szinten átlagosan szinte ugyanakkora volt a topologikus entrópia. Ezt szemlélteti a \ref{fig:h_p_dependence}. ábra, ahol a topologikus entrópia átlagos értékét ábrázotlam modellenként a nyomási szint függvényében.
+A nyomási szinttől is függött a modellelőrejelzések kaotikussága: az IFS-nél a földfelszínhez közelebbi szinteken egyértelműen nagyobb volt a topologikus entrópia, az AIFS esetében nem volt ennyire egyértelmű a növekedés, minden szinten átlagosan szinte ugyanakkora volt a topologikus entrópia. Ezt szemlélteti a \ref{fig:h_p_dependence}. ábra, ahol a topologikus entrópia átlagos értékét ábrázoltam modellenként a nyomási szint függvényében.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{"../figures/topo/h_p_dependence.png"}
+    \includegraphics[width=0.5\textwidth]{"../figures/topo/h_p_dependence.png"}
     \caption{A topologikus entrópia átlagos értéke nyomási szintenként.}
     \label{fig:h_p_dependence}
 \end{figure}
 
 \subsection{További kutatás lehetősége}
-Még pontosabb képet lehetne kapni a gépi tanulás alapú modellel meghajtott szennyeződésterjedés kaotikusságáról, ha további időpontokat, nyomási szinteket, illetve földrajzi helyeket vizsgálnék meg. Az állítások azonban a jelenleg felhasznált adatmennyiség mellett is konzekvensnek tűnnek.
+Még pontosabb képet lehetne kapni a gépi tanulás alapú modellel meghajtott szennyeződésterjedés kaotikusságáról, ha további időpontokat, nyomási szinteket, illetve földrajzi helyeket vizsgálnék meg. Az állítások azonban a jelenleg felhasznált adatmennyiség mellett is konzisztensnek tűnnek.
 
 Érdekes lehet továbbá megvizsgálni az AIFS modell korábbi verzióját, az AIFS v1-et: vajon a jelenlegi verzióhoz képest a korábbi verzió kevésbé tudta-e reprezentálni a káoszt. A közeljövőben az AIFS v3-at is publikálni tervezik, melyben a modellfejlesztők az elmosás (smoothing) kisebb mértékű megjelenését ígérik. Az új modell megjelenése után érdekes lehet annak az előrejelzéseit is megvizsgálni; a korábbi verziókkal, illetve a standardnak vett fizikai alapú IFS-előrejelzésekkel összevetni.
 
 
 \section{Köszönetnyilvánítás}
-Köszönettel tartozom a témavezetőim, Leelőssy Ádám és Haszpra Tímea szakmai segítségéért, tanácsaikért. A kutatás az NKKP STARTING 153030 projekt keretében készült. A Tudományos és Technológiai Minisztérium EKÖP-26 kódszámú Egyetemi Kutatói Ösztöndíj Programjának a Nemzeti Kutatási, Fejlesztési és Innovációs Alapból finanszírozott szakmai támogatásával készült.
+Köszönettel tartozom témavezetőim, Leelőssy Ádám és Haszpra Tímea szakmai segítségéért, tanácsaikért. A kutatás az NKKP STARTING 153030 projekt keretében készült. A Tudományos és Technológiai Minisztérium EKÖP-26 kódszámú Egyetemi Kutatói Ösztöndíj Programjának a Nemzeti Kutatási, Fejlesztési és Innovációs Alapból finanszírozott szakmai támogatásával készült.
 
 \section{MI nyilatkozat}
 Nyilatkozom, hogy dolgozatom elkészítése során nem használtam mesterséges intelligencia (MI) alapú eszközöket a dolgozatom szövegének generálására. Az alább felsorolt feladatok elvégzésére a megadott MI alapú eszközöket alkalmaztam. A felsoroltakon túl más MI alapú eszközt nem használtam.
@@ -1204,7 +1204,7 @@ Nyilatkozom, hogy dolgozatom elkészítése során nem használtam mesterséges 
 
         forrásértelmezés & Gemini 3.5 Flash-Lite, Gemini 3.1 Pro & Bevezetés fejezet & segítség bonyolultabb koncepciók megértésében, szövegértelmezésben \\\hline
 
-        programozás & Gemini 3.1 Pro & Eredmények fejezet & Python kódban hibakeresés, repetatív munkák elvégzése (ábrázoló kódok megírása), modell hatékonyabbá tételéhez tanácsok\\\hline
+        programozás & Gemini 3.1 Pro & Eredmények, Függelék fejezetek & Python kódban hibakeresés, repetatív munkák elvégzése (ábrázoló kódok megírása), modell hatékonyabbá tételéhez tanácsok\\\hline
 
         statisztikai elemzés & Gemini 3.1 Pro & Eredmények fejezet & segítség a konfidenciaintervallum kiszámolásában \\\hline        
         
