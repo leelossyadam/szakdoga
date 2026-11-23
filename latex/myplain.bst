@@ -193,12 +193,19 @@ FUNCTION {format.names}
 { 's :=
   #1 'nameptr :=
   s num.names$ 'numnames :=
-  numnames #1 >
+  numnames #2 >
     { s #1 "{vv~}{ll}{, jj}{, f.}" format.name$
-    	" et~al." *
+      " et~al." *
     }
-    { s #1 "{vv~}{ll}{, jj}{, f.}" format.name$ }
-    if$
+    { numnames #2 =
+        { s #1 "{vv~}{ll}{, jj}{, f.}" format.name$
+          " and " *
+          s #2 "{vv~}{ll}{, jj}{, f.}" format.name$ *
+        }
+        { s #1 "{vv~}{ll}{, jj}{, f.}" format.name$ }
+      if$
+    }
+  if$
 }
 
 FUNCTION {format.authors}
